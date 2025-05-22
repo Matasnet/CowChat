@@ -1,0 +1,8 @@
+cowsay-chat/
+├── app.py                # Flask + Socket.IO backend
+├── static/
+│   └── style.css         # Stylizacja
+├── templates/
+│   └── index.html        # Interfejs użytkownika
+├── cowsay_generator.py   # Własna funkcja cowsay z kolorami
+├── requirements.txt

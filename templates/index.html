@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>KrowiCzat 🐄</title>
+    <script src="https://cdn.socket.io/4.6.1/socket.io.min.js" crossorigin="anonymous"></script>
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: #f0f0f0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        form {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        input, select, button {
+            padding: 8px;
+            margin: 5px;
+            font-size: 16px;
+        }
+        #chat {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 15px;
+            height: 500px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>KrowiCzat 🐄</h1>
+
+    <form id="chatForm">
+        <input type="text" id="name" placeholder="Twoje imię (krówka)" required>
+        <input type="text" id="message" placeholder="Wiadomość" required>
+        <select id="color">
+            <option value="black">Czarny</option>
+            <option value="red">Czerwony</option>
+            <option value="green">Zielony</option>
+            <option value="blue">Niebieski</option>
+            <option value="purple">Fioletowy</option>
+        </select>
+        <button type="submit">Wyślij 🐮</button>
+    </form>
+
+    <div id="chat"></div>
+
+    <script>
+        const socket = io();
+
+        const form = document.getElementById('chatForm');
+        const chat = document.getElementById('chat');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const message = document.getElementById('message').value;
+            const color = document.getElementById('color').value;
+
+            socket.emit('message', {
+                name: name,
+                message: message,
+                color: color
+            });
+
+            document.getElementById('message').value = '';
+        });
+
+        socket.on('message', function(data) {
+            chat.innerHTML += data + "<br><br>";
+            chat.scrollTop = chat.scrollHeight;
+        });
+    </script>
+
+</body>
+</html>
